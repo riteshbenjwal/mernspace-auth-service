@@ -16,7 +16,7 @@
     "license": "ISC",
     "lint-staged": {
         "*.ts": [
-            "eslint --max-warnings=10"
+            "eslint --max-warnings=0"
         ]
     },
     "devDependencies": {
