@@ -16,7 +16,5 @@
         "esModuleInterop": true,
         "strict": true,
         "strictPropertyInitialization": false
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+    }
 }
