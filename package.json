@@ -1,0 +1,25 @@
+{
+    "name": "auth-service",
+    "version": "1.0.0",
+    "description": "Auth Service for mern space project",
+    "main": "index.js",
+    "scripts": {
+        "format": "prettier .",
+        "format:check": "npm run format -- --check",
+        "format:fix": "npm run format -- --write",
+        "lint": "eslint .",
+        "lint:fix": "npm run lint -- --fix"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.6.0",
+        "@typescript-eslint/eslint-plugin": "^6.6.0",
+        "@typescript-eslint/parser": "^6.6.0",
+        "eslint": "^8.49.0",
+        "eslint-config-prettier": "^9.0.0",
+        "prettier": "^3.0.3",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.2.2"
+    }
+}
