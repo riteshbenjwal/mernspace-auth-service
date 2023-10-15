@@ -1,26 +1,33 @@
 import winston from 'winston';
-import { CONFIG } from '.';
+import { Config } from '.';
 
-const { LOG_LEVEL, CURRENT_SERVICE, ENVIRONMENT } = CONFIG;
+const { LOG_LEVEL, CURRENT_SERVICE, NODE_ENV } = Config;
 
 export const logger = winston.createLogger({
     level: LOG_LEVEL,
-    format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-    ),
     defaultMeta: {
         service: CURRENT_SERVICE,
     },
     transports: [
         new winston.transports.File({
             dirname: 'logs',
-            filename: 'application.log',
-            silent: ENVIRONMENT === 'test',
+            filename: 'combined.log',
+            level: LOG_LEVEL,
+            silent: NODE_ENV === 'test',
+        }),
+        new winston.transports.File({
+            dirname: 'logs',
+            filename: 'error.log',
+            level: 'error',
+            silent: NODE_ENV === 'test',
         }),
         new winston.transports.Console({
-            silent: ENVIRONMENT === 'test' || ENVIRONMENT === 'production',
-            // format: winston.format.simple(),
+            level: LOG_LEVEL,
+            format: winston.format.combine(
+                winston.format.timestamp(),
+                winston.format.json(),
+            ),
+            // silent: NODE_ENV === 'test',
         }),
     ],
 });
