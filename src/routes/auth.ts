@@ -1,3 +1,4 @@
+import { logger } from './../config/logger';
 import { AuthController } from '../controllers/AuthController';
 import express from 'express';
 import { UserService } from '../services/UserService';
@@ -12,8 +13,10 @@ const userRepository = AppDataSource.getRepository(User);
 // Services to Inject
 const userService = new UserService(userRepository);
 
-const authController = new AuthController(userService);
+const authController = new AuthController(userService, logger);
 
-router.post('/register', (req, res) => authController.register(req, res));
+router.post('/register', (req, res, next) =>
+    authController.register(req, res, next),
+);
 
 export default router;
