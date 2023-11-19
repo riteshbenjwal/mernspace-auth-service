@@ -5,6 +5,7 @@ import { DataSource } from 'typeorm';
 import { AppDataSource } from '../../src/config/data-source';
 import { User } from '../../src/entity/User';
 import { isJwt } from '../utils';
+import { RefreshToken } from '../../src/entity/RefreshToken';
 
 describe('POST /auth/register', () => {
     let connection: DataSource;
@@ -164,9 +165,9 @@ describe('POST /auth/register', () => {
         it('should return the access token and refresh token inside a cookie', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rakesh',
+                firstName: 'Rohan',
                 lastName: 'K',
-                email: 'rakesh@mern.space',
+                email: 'rohan@mern.space',
                 password: 'password',
             };
 
@@ -197,6 +198,37 @@ describe('POST /auth/register', () => {
 
             expect(isJwt(accessToken)).toBeTruthy();
             expect(isJwt(refreshToken)).toBeTruthy();
+        });
+
+        it('should store the refresh token in the database', async () => {
+            // Arrange
+            const userData = {
+                firstName: 'Rohan',
+                lastName: 'K',
+                email: 'rohan@mern.space',
+                password: 'password',
+            };
+
+            // Act
+            const response = await request(app)
+                .post('/auth/register')
+                .send(userData);
+
+            // Assert
+
+            const refreshTokenRepo = connection.getRepository(RefreshToken);
+
+            // const refreshTokens = await refreshTokenRepo.find();
+            // expect(refreshTokens).toHaveLength(1);
+
+            const tokens = await refreshTokenRepo
+                .createQueryBuilder('refreshToken')
+                .where('refreshToken.userId = :userId', {
+                    userId: (response.body as Record<string, string>).id,
+                })
+                .getMany();
+
+            expect(tokens).toHaveLength(1);
         });
     });
     describe('Fields are missing', () => {
