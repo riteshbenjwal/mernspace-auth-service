@@ -18,6 +18,7 @@ const {
     DB_PASSWORD,
     DB_NAME,
     REFRESH_TOKEN_SECRET,
+    JWKS_URI,
 } = process.env;
 
 // eslint-disable-next-line no-console
@@ -34,4 +35,5 @@ export const Config = {
     DB_PASSWORD,
     DB_NAME,
     REFRESH_TOKEN_SECRET,
+    JWKS_URI,
 };

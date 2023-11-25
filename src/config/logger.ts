@@ -8,6 +8,10 @@ export const logger = winston.createLogger({
     defaultMeta: {
         service: CURRENT_SERVICE,
     },
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+    ),
     transports: [
         new winston.transports.File({
             dirname: 'logs',
@@ -23,11 +27,7 @@ export const logger = winston.createLogger({
         }),
         new winston.transports.Console({
             level: LOG_LEVEL,
-            format: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.json(),
-            ),
-            // silent: NODE_ENV === 'test',
+            silent: NODE_ENV === 'test',
         }),
     ],
 });
