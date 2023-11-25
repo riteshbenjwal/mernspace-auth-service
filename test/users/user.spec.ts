@@ -120,7 +120,6 @@ describe('GET /auth/self', () => {
                 role: Roles.CUSTOMER,
             });
 
-            // Add token to cookie
             const response = await request(app).get('/auth/self').send();
             // Assert
             expect(response.statusCode).toBe(401);

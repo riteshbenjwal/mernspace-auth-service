@@ -66,7 +66,6 @@ describe('POST /auth/login', () => {
             });
             expect(accessToken).not.toBeNull();
             expect(refreshToken).not.toBeNull();
-
             expect(isJwt(accessToken)).toBeTruthy();
             expect(isJwt(refreshToken)).toBeTruthy();
         });

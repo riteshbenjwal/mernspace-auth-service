@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { AuthRequest, RegisterUserRequest } from '../types/index';
 import { UserService } from '../services/UserService';
 import { Logger } from 'winston';
@@ -172,6 +172,6 @@ export class AuthController {
 
     async self(req: AuthRequest, res: Response, next: NextFunction) {
         const user = await this.userService.findById(Number(req.auth.sub));
-        res.json(user);
+        res.json({ ...user, password: undefined });
     }
 }
