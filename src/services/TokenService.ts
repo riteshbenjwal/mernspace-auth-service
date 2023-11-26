@@ -3,7 +3,6 @@ import fs from 'fs';
 import path from 'path';
 import createHttpError from 'http-errors';
 import { Config } from '../config/index';
-import { AppDataSource } from '../config/data-source';
 import { User } from '../types/index';
 import { RefreshToken } from '../entity/RefreshToken';
 import { Repository } from 'typeorm';
@@ -50,5 +49,9 @@ export class TokenService {
             expiresAt: new Date(Date.now() + MS_IN_YEAR),
         });
         return newRefreshToken;
+    }
+
+    async deleteRefreshToken(tokenId: number) {
+        return await this.refreshTokenRepository.delete({ id: tokenId });
     }
 }
