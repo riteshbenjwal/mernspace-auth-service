@@ -1,4 +1,5 @@
-import { DataSource } from 'typeorm';
+import { Tenant } from '../../src/entity/Tenant';
+import { DataSource, Repository } from 'typeorm';
 
 export const truncateTables = async (connection: DataSource) => {
     const entities = connection.entityMetadatas;
@@ -25,4 +26,11 @@ export const isJwt = (token: string | null): boolean => {
     } catch (err) {
         return false;
     }
+};
+
+export const createTenant = async (repository: Repository<Tenant>) => {
+    return await repository.save({
+        name: 'Test Tenant',
+        address: 'Test Address',
+    });
 };
