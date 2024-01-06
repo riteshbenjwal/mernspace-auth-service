@@ -1,20 +1,21 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src",
-        "paths": {
-            "@/*": ["*"]
-        },
-        "lib": ["es5", "es6"],
-        "target": "ES6",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
+        "target": "es2016",
+        "lib": [
+            "es6"
+        ] ,
+        "rootDir": "./",
         "outDir": "./dist",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "sourceMap": true,
         "esModuleInterop": true,
-        "strict": true,
-        "strictPropertyInitialization": false
-    }
+        "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+
+        /* Type Checking */
+        "strict": true /* Enable all strict type-checking options. */,
+        "strictPropertyInitialization": false /* Check for class properties that are declared but not set in the constructor. */,
+        // "noImplicitThis": true, 
+        "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    },
+    "exclude": ["**/*.spec.ts", "test"]
 }

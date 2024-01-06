@@ -5,10 +5,10 @@ import { AppDataSource } from '../config/data-source';
 import { Tenant } from '../entity/Tenant';
 import authenticate from '../middlewares/authenticate';
 import { canAccess } from '../middlewares/canAccess';
-import { Roles } from '../constants';
-import { CreateTenantRequest } from '../types';
 import { logger } from '../config/logger';
 import tenantValidator from '../validators/tenant-validator';
+import { CreateTenantRequest } from '../types/index';
+import { Roles } from '../constants/index';
 
 const router = express.Router();
 
@@ -35,7 +35,9 @@ router.patch(
 );
 router.get('/', (req, res, next) => tenantController.getAll(req, res, next));
 
-router.get('/:id', (req, res, next) => tenantController.getOne(req, res, next));
+router.get('/:id', authenticate, canAccess([Roles.ADMIN]), (req, res, next) =>
+    tenantController.getOne(req, res, next),
+);
 
 router.delete(
     '/:id',
