@@ -40,18 +40,19 @@ describe('GET /auth/self', () => {
                 .get('/auth/self')
                 .set('Cookie', [`accessToken=${accessToken}`])
                 .send();
+
+            // console.log('response ==>', response);
             expect(response.statusCode).toBe(200);
         });
 
         it('should return the user data', async () => {
             // Register user
             const userData = {
-                firstName: 'Ritesh',
-                lastName: 'Benjwal',
-                email: 'ritesh@mern.space',
+                firstName: 'Rakesh',
+                lastName: 'K',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
-
             const userRepository = connection.getRepository(User);
             const data = await userRepository.save({
                 ...userData,
@@ -68,7 +69,7 @@ describe('GET /auth/self', () => {
                 .get('/auth/self')
                 .set('Cookie', [`accessToken=${accessToken};`])
                 .send();
-
+            // Assert
             // Check if user id matches with registered user
             expect((response.body as Record<string, string>).id).toBe(data.id);
         });
@@ -76,12 +77,11 @@ describe('GET /auth/self', () => {
         it('should not return the password field', async () => {
             // Register user
             const userData = {
-                firstName: 'Ritesh',
-                lastName: 'Benjwal',
-                email: 'ritesh@mern.space',
+                firstName: 'Rakesh',
+                lastName: 'K',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
-
             const userRepository = connection.getRepository(User);
             const data = await userRepository.save({
                 ...userData,
@@ -108,18 +108,18 @@ describe('GET /auth/self', () => {
         it('should return 401 status code if token does not exists', async () => {
             // Register user
             const userData = {
-                firstName: 'Ritesh',
-                lastName: 'Benjwal',
-                email: 'ritesh@mern.space',
+                firstName: 'Rakesh',
+                lastName: 'K',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
-
             const userRepository = connection.getRepository(User);
             await userRepository.save({
                 ...userData,
                 role: Roles.CUSTOMER,
             });
 
+            // Add token to cookie
             const response = await request(app).get('/auth/self').send();
             // Assert
             expect(response.statusCode).toBe(401);

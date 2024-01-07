@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import request from 'supertest';
 import { AppDataSource } from '../../src/config/data-source';
 import app from '../../src/app';
@@ -27,9 +27,9 @@ describe('POST /auth/login', () => {
         it('should return the access token and refresh token inside a cookie', async () => {
             // Arrange
             const userData = {
-                firstName: 'Ritesh',
-                lastName: 'Benjwal',
-                email: 'ritesh@mern.space',
+                firstName: 'Rakesh',
+                lastName: 'K',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
 
@@ -51,9 +51,8 @@ describe('POST /auth/login', () => {
                 ['set-cookie']: string[];
             }
             // Assert
-            let accessToken = null;
-            let refreshToken = null;
-
+            let accessToken: any = null;
+            let refreshToken: any = null;
             const cookies = (response.headers as Headers)['set-cookie'] || [];
             cookies.forEach((cookie) => {
                 if (cookie.startsWith('accessToken=')) {
@@ -66,15 +65,16 @@ describe('POST /auth/login', () => {
             });
             expect(accessToken).not.toBeNull();
             expect(refreshToken).not.toBeNull();
+
             expect(isJwt(accessToken)).toBeTruthy();
             expect(isJwt(refreshToken)).toBeTruthy();
         });
         it('should return the 400 if email or password is wrong', async () => {
             // Arrange
             const userData = {
-                firstName: 'Ritesh',
-                lastName: 'Benjwal',
-                email: 'ritesh@mern.space',
+                firstName: 'Rakesh',
+                lastName: 'K',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
 

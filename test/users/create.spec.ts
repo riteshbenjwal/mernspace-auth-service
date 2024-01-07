@@ -34,8 +34,9 @@ describe('POST /users', () => {
 
     describe('Given all fields', () => {
         it('should persist the user in the database', async () => {
-            // Create Tenant first
+            // Create tenant first
             const tenant = await createTenant(connection.getRepository(Tenant));
+
             const adminToken = jwks.token({
                 sub: '1',
                 role: Roles.ADMIN,
@@ -43,9 +44,9 @@ describe('POST /users', () => {
 
             // Register user
             const userData = {
-                firstName: 'Ritesh',
-                lastName: 'Benjwal',
-                email: 'riteshbenjwal7@gmail.com',
+                firstName: 'Rakesh',
+                lastName: 'K',
+                email: 'rakesh@mern.space',
                 password: 'password',
                 tenantId: tenant.id,
                 role: Roles.MANAGER,

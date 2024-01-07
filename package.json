@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "cross-env NODE_ENV=dev nodemon src/server.ts",
-        "build":"tsc",
+        "build": "tsc",
         "format": "prettier .",
         "format:check": "npm run format -- --check",
         "format:fix": "npm run format -- --write",
@@ -13,7 +13,7 @@
         "lint:fix": "npm run lint -- --fix",
         "prepare": "husky install",
         "test": "jest --no-cache --coverage --all --runInBand",
-        "test:watch":"jest --watch --runInBand",
+        "test:watch": "jest --watch --runInBand",
         "docker:build": "docker build -t auth-service:dev -f docker/development/Dockerfile .",
         "docker:run": "docker run --rm -it -v '$(pwd):/usr/src/app' -v /usr/src/app/node_modules --env-file '$(pwd)/.env' -p 5501:5501 -e NODE_ENV=development auth-prep:dev",
         "docker:db": "docker run --rm --name mernpg-container -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -v mernpgdata:/var/lib/postgresql/data -p 5432:5432 -d postgres",
@@ -32,6 +32,7 @@
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.2",
+        "@types/bcryptjs": "^2.4.6",
         "@types/cookie-parser": "^1.4.6",
         "@types/cors": "^2.8.14",
         "@types/express": "^4.17.17",
@@ -58,6 +59,7 @@
     },
     "dependencies": {
         "bcrypt": "^5.1.1",
+        "bcryptjs": "^2.4.3",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "dotenv": "^16.3.1",

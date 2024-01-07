@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { config } from 'dotenv';
 import path from 'path';
 
@@ -10,7 +9,6 @@ const {
     PORT,
     LOG_LEVEL,
     CURRENT_SERVICE,
-    ENVIRONMENT,
     NODE_ENV,
     DB_HOST,
     DB_PORT,
@@ -22,14 +20,11 @@ const {
     PRIVATE_KEY,
 } = process.env;
 
-// eslint-disable-next-line no-console
-
 export const Config = {
-    PORT: PORT || 3000,
+    PORT,
     LOG_LEVEL: LOG_LEVEL || 'info',
     CURRENT_SERVICE: CURRENT_SERVICE,
-    ENVIRONMENT: ENVIRONMENT,
-    NODE_ENV: NODE_ENV,
+    NODE_ENV,
     DB_HOST,
     DB_PORT,
     DB_USERNAME,

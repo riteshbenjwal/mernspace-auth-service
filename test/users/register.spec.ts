@@ -1,9 +1,9 @@
-import { Roles } from './../../src/constants/index';
 import request from 'supertest';
 import app from '../../src/app';
+import { User } from '../../src/entity/User';
 import { DataSource } from 'typeorm';
 import { AppDataSource } from '../../src/config/data-source';
-import { User } from '../../src/entity/User';
+import { Roles } from '../../src/constants';
 import { isJwt } from '../utils';
 import { RefreshToken } from '../../src/entity/RefreshToken';
 
@@ -28,9 +28,9 @@ describe('POST /auth/register', () => {
         it('should return the 201 status code', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             // Act
@@ -45,9 +45,9 @@ describe('POST /auth/register', () => {
         it('should return valid json response', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             // Act
@@ -64,9 +64,9 @@ describe('POST /auth/register', () => {
         it('should persist the user in the database', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             // Act
@@ -84,9 +84,9 @@ describe('POST /auth/register', () => {
         it('should return an id of the created user', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             // Act
@@ -106,9 +106,9 @@ describe('POST /auth/register', () => {
         it('should assign a customer role', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             // Act
@@ -124,9 +124,9 @@ describe('POST /auth/register', () => {
         it('should store the hashed password in the database', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             // Act
@@ -137,15 +137,15 @@ describe('POST /auth/register', () => {
             const users = await userRepository.find({ select: ['password'] });
             expect(users[0].password).not.toBe(userData.password);
             expect(users[0].password).toHaveLength(60);
-            expect(users[0].password).toMatch(/^\$2b\$\d+\$/);
+            expect(users[0].password).toMatch(/^\$2[a|b]\$\d+\$/);
         });
 
         it('should return 400 status code if email is already exists', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             const userRepository = connection.getRepository(User);
@@ -165,9 +165,9 @@ describe('POST /auth/register', () => {
         it('should return the access token and refresh token inside a cookie', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
 
@@ -180,10 +180,10 @@ describe('POST /auth/register', () => {
                 ['set-cookie']: string[];
             }
             // Assert
-            let accessToken: string | null = null;
-            let refreshToken: string | null = null;
+            let accessToken: any = null;
+            let refreshToken: any = null;
             const cookies = (response.headers as Headers)['set-cookie'] || [];
-
+            // accessToken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjkzOTA5Mjc2LCJleHAiOjE2OTM5MDkzMzYsImlzcyI6Im1lcm5zcGFjZSJ9.KetQMEzY36vxhO6WKwSR-P_feRU1yI-nJtp6RhCEZQTPlQlmVsNTP7mO-qfCdBr0gszxHi9Jd1mqf-hGhfiK8BRA_Zy2CH9xpPTBud_luqLMvfPiz3gYR24jPjDxfZJscdhE_AIL6Uv2fxCKvLba17X0WbefJSy4rtx3ZyLkbnnbelIqu5J5_7lz4aIkHjt-rb_sBaoQ0l8wE5KzyDNy7mGUf7cI_yR8D8VlO7x9llbhvCHF8ts6YSBRBt_e2Mjg5txtfBaDq5auCTXQ2lmnJtMb75t1nAFu8KwQPrDYmwtGZDkHUcpQhlP7R-y3H99YnrWpXbP8Zr_oO67hWnoCSw; Max-Age=43200; Domain=localhost; Path=/; Expires=Tue, 05 Sep 2023 22:21:16 GMT; HttpOnly; SameSite=Strict
             cookies.forEach((cookie) => {
                 if (cookie.startsWith('accessToken=')) {
                     accessToken = cookie.split(';')[0].split('=')[1];
@@ -199,13 +199,12 @@ describe('POST /auth/register', () => {
             expect(isJwt(accessToken)).toBeTruthy();
             expect(isJwt(refreshToken)).toBeTruthy();
         });
-
         it('should store the refresh token in the database', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
 
@@ -215,11 +214,8 @@ describe('POST /auth/register', () => {
                 .send(userData);
 
             // Assert
-
             const refreshTokenRepo = connection.getRepository(RefreshToken);
-
             // const refreshTokens = await refreshTokenRepo.find();
-            // expect(refreshTokens).toHaveLength(1);
 
             const tokens = await refreshTokenRepo
                 .createQueryBuilder('refreshToken')
@@ -235,7 +231,7 @@ describe('POST /auth/register', () => {
         it('should return 400 status code if email field is missing', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
                 email: '',
                 password: 'password',
@@ -257,7 +253,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 firstName: '',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             // Act
@@ -274,9 +270,9 @@ describe('POST /auth/register', () => {
         it('should return 400 status code if lastName is missing', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: '',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'password',
             };
             // Act
@@ -294,9 +290,9 @@ describe('POST /auth/register', () => {
         it('should return 400 status code if password is missing', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: '',
             };
             // Act
@@ -316,9 +312,9 @@ describe('POST /auth/register', () => {
         it('should trim the email field', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: ' rohan@mern.space ',
+                email: ' rakesh@mern.space ',
                 password: 'password',
             };
             // Act
@@ -328,14 +324,14 @@ describe('POST /auth/register', () => {
             const userRepository = connection.getRepository(User);
             const users = await userRepository.find();
             const user = users[0];
-            expect(user.email).toBe('rohan@mern.space');
+            expect(user.email).toBe('rakesh@mern.space');
         });
         it('should return 400 status code if email is not a valid email', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan_mern.space', // Invalid email
+                email: 'rakesh_mern.space', // Invalid email
                 password: 'password',
             };
             // Act
@@ -352,9 +348,9 @@ describe('POST /auth/register', () => {
         it('should return 400 status code if password length is less than 8 chars', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
-                email: 'rohan@mern.space',
+                email: 'rakesh@mern.space',
                 password: 'pass', // less than 8 chars
             };
             // Act
@@ -371,7 +367,7 @@ describe('POST /auth/register', () => {
         it('shoud return an array of error messages if email is missing', async () => {
             // Arrange
             const userData = {
-                firstName: 'Rohan',
+                firstName: 'Rakesh',
                 lastName: 'K',
                 email: '',
                 password: 'password',
