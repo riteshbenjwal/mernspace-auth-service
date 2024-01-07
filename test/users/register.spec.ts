@@ -180,8 +180,8 @@ describe('POST /auth/register', () => {
                 ['set-cookie']: string[];
             }
             // Assert
-            let accessToken = null;
-            let refreshToken = null;
+            let accessToken: string | null = null;
+            let refreshToken: string | null = null;
             const cookies = (response.headers as Headers)['set-cookie'] || [];
 
             cookies.forEach((cookie) => {

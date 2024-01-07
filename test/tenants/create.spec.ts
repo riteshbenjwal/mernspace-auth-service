@@ -13,7 +13,7 @@ describe('POST /tenants', () => {
 
     beforeAll(async () => {
         connection = await AppDataSource.initialize();
-        jwks = createJWKSMock('http://localhost:5001');
+        jwks = createJWKSMock('http://localhost:5501');
     });
 
     beforeEach(async () => {
