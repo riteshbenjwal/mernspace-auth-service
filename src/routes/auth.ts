@@ -63,7 +63,7 @@ router.get(
 
 router.post(
     '/refresh',
-    validateRefreshToken,
+    validateRefreshToken as RequestHandler,
     (req: Request, res: Response, next: NextFunction) =>
         authController.refresh(
             req as AuthRequest,
@@ -75,7 +75,7 @@ router.post(
 router.post(
     '/logout',
     authenticate as RequestHandler,
-    parseRefreshToken,
+    parseRefreshToken as RequestHandler,
     (req: Request, res: Response, next: NextFunction) =>
         authController.logout(
             req as AuthRequest,
