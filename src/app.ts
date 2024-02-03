@@ -15,7 +15,12 @@ app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
 
-app.use(cors());
+app.use(
+    cors({
+        origin: ['http://localhost:5173'],
+        credentials: true,
+    }),
+);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to auth api server');
@@ -24,6 +29,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/auth', authRouter);
 app.use('/tenants', tenantRouter);
 app.use('/users', userRouter);
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
     logger.error(err?.message);
